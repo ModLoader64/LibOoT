@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+    <ItemGroup>
+	 <Using Include="System.Byte" Alias="u8" />
+	 <Using Include="System.UInt16" Alias="u16" />
+	 <Using Include="System.UInt32" Alias="u32" />
+	 <Using Include="System.UInt64" Alias="u64" />
+	 <Using Include="System.SByte" Alias="s8" />
+	 <Using Include="System.Int16" Alias="s16" />
+	 <Using Include="System.Int32" Alias="s32" />
+	 <Using Include="System.Int64" Alias="s64" />
+	 <Using Include="System.Half" Alias="f16" />
+	 <Using Include="System.Single" Alias="f32" />
+	 <Using Include="System.Double" Alias="f64" />
+	 <Using Include="System.IntPtr" Alias="Ptr" />
+	 <Using Include="System.Byte" Alias="@char" />
+	 <Using Include="ModLoader.API" />
+  </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\ModLoader.API\ModLoader.API.csproj" />
+    </ItemGroup>
+
+</Project>
