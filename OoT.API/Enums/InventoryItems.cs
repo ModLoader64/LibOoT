@@ -71,9 +71,9 @@ namespace OoT.API
         NONE = 0xff,
     }
 
-    public enum InventorySlots
+    public enum InventorySlot
     {
-        DEKU_STICKS,
+        DEKU_STICKS = 0,
         DEKU_NUTS,
         BOMBS,
         FAIRY_BOW,
@@ -97,6 +97,7 @@ namespace OoT.API
         BOTTLE4,
         ADULT_TRADE_ITEM,
         CHILD_TRADE_ITEM,
+        COUNT
     }
 
 }
