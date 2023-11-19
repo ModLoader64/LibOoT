@@ -5,6 +5,8 @@ namespace OoT.API;
 public static class OoTVersionPointers
 {
     public static Ptr SaveContext = 0;
+    public static Ptr GlobalContext = 0;
+    public static Ptr PlayerContext = 0;
 }
 
 public static class OoTGameData {

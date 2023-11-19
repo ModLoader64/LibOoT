@@ -1,3 +1,6 @@
+using OoT.API.Wrappers.SaveContext;
+using System.Reflection;
+
 namespace OoT.API;
 
 public class InventoryItemArray : MemoryObject
@@ -79,11 +82,14 @@ public class InventoryItemArray : MemoryObject
 public class WrapperInventory : MemoryObject
 {
     public InventoryItemArray InventoryItems { get; set; }
-
+    private u32 pointer = 0;
     public WrapperInventory(u32 pointer) : base(pointer, 0x5E)
     {
         InventoryItems = new InventoryItemArray(pointer);
+        this.pointer = pointer;
     }
+
+    public WrapperEquipment equipment { get => this._equipment(); set => this._equipment(value); }
 
     // #ARRCOUNT 16
     private s8[] _ammo()
@@ -97,14 +103,14 @@ public class WrapperInventory : MemoryObject
         for (u32 i = 0; i < 16; i++) { WriteS8(0x18 + (i * 1), value[i]); }
     }
 
-    private u16 _equipment()
+    private WrapperEquipment _equipment()
     {
-        return ReadU16(0x28);
+        return new WrapperEquipment(this.pointer + 0x0028);
     }
 
-    private void _equipment(u16 value)
+    private void _equipment(WrapperEquipment value)
     {
-        WriteU16(0x28, value);
+        
     }
 
     private u32 _upgrades()
