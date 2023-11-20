@@ -14,8 +14,17 @@ namespace OoT.API.Enums
         REV_B = 0x02,
     }
 
+    public class SupportedGames
+    {
+        public const string OOTDBG = "OoTDebug";
+        public const string OOTMM = "OoTMM";
+        public const string OOT = "OoT";
+        public const string MM = "MM";
+    }
+
     public static class RomRegions
     {
+        public const string NTSC_OOTMM = "CZZ";
         public const string DEBUG_OOT = "NZL";
         public const string NTSC_OOT = "CZL";
         public const string NTSC_MM = "NZS";

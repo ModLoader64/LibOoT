@@ -9,9 +9,11 @@ public static class OoTVersionPointers
     public static Ptr PlayerContext = 0;
 }
 
-public static class OoTGameData {
+public static class OoTGameData
+{
 
-    static OoTGameData(){
+    static OoTGameData()
+    {
         //save = new WrapperSaveContext((u32)OoTVersionPointers.SaveContext);
         //byte[] empty1 = new byte[0x100000 + 4];
         //byte[] RAM = new byte[0x800000 + 4];
@@ -26,7 +28,7 @@ public static class OoTGameData {
         //Console.WriteLine("Looking for empty space...");
         //for (int i = 0; i < RAM.Length; i += empty1.Length)
         //{
-            
+
         //}
     }
 
