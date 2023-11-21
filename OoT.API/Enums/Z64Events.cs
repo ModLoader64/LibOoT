@@ -11,6 +11,11 @@ namespace OoT.API
         public string Id { get; set; } = "EventSaveLoaded";
     }
 
+    public class EventSoftReset : IEvent
+    {
+        public string Id { get; set; } = "EventSoftReset";
+    }
+
     public class EventLoadingZone : IEvent
     {
         public string Id { get; set; } = "EventLoadingZone";

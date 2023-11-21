@@ -15,7 +15,7 @@
 
         public bool isTitleScreen()
         {
-            return this.save.fileNum == 0xFF || this.save.fileNum == 0xFEDC;
+            return save.gameMode != 0;
         }
 
         public bool isSceneNumberValid()

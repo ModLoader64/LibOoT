@@ -30,7 +30,6 @@ namespace OoT.API
 
         public static void InitOoT()
         {
-            Console.WriteLine("Hi");
             if (romHeader.id == Enums.RomRegions.NTSC_OOT && romHeader.version == (int)Enums.ROM_VERSIONS.N0)
             {
                 Console.WriteLine("OoT 1.0 NTSC");
@@ -69,13 +68,24 @@ namespace OoT.API
         {
             if (!isReady) { return; }
 
+            if(is_save_loaded && helper.isTitleScreen())
+            {
+                Console.WriteLine("Soft Reset Detected!");
+                is_save_loaded = false;
+                touching_loading_zone = false;
+                last_known_age = 0;
+                last_known_scene = -1;
+                last_known_room = -1;
+                PubEventBus.bus.PushEvent(new EventSoftReset());
+            }
+
             if (save.linkAge != last_known_age)
             {
                 Console.WriteLine("Age Change: " + last_known_age + " -> " + save.linkAge);
                 PubEventBus.bus.PushEvent(new EventAgeChange(last_known_age));
                 last_known_age = save.linkAge;
             }
-            if (!is_save_loaded && helper.isSceneNumberValid())
+            if (!is_save_loaded && helper.isSceneNumberValid() && !helper.isTitleScreen())
             {
                 is_save_loaded = true;
                 PubEventBus.bus.PushEvent(new EventSaveLoaded());
@@ -120,7 +130,7 @@ namespace OoT.API
         [EventHandler("EventSceneChange")]
         public static void OnSceneChange(EventSceneChange evt)
         {
-            Console.WriteLine("onSceneChange: " + evt.scene);
+            
         }
 
         [EventHandler("OnRomLoaded")]
