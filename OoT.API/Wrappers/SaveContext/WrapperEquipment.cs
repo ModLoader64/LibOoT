@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace OoT.API.Wrappers.SaveContext
 {
+
     public class WrapperEquipment
     {
         public readonly u32 pointer = 0;

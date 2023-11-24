@@ -90,6 +90,7 @@ public class WrapperInventory : MemoryObject
     }
 
     public WrapperEquipment equipment { get => this._equipment(); set => this._equipment(value); }
+    public WrapperQuestStatus questStatus { get => this._questItems(); set => this._questItems(value); }
 
     // #ARRCOUNT 16
     private s8[] _ammo()
@@ -123,9 +124,14 @@ public class WrapperInventory : MemoryObject
         WriteU32(0x2C, value);
     }
 
-    private u32 _questItems()
+    private WrapperQuestStatus _questItems()
     {
-        return ReadU32(0x30);
+        return new WrapperQuestStatus(this.pointer + 0x30);
+    }
+
+    private void _questItems(WrapperQuestStatus value)
+    {
+
     }
 
     private void _questItems(u32 value)

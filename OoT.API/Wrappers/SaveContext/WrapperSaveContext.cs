@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Runtime.Intrinsics.Arm;
+
 namespace OoT.API {
     
     
@@ -14,7 +16,9 @@ namespace OoT.API {
         
         [System.Text.Json.Serialization.JsonIgnoreAttribute()]
         public readonly u32 pointer;
-        
+
+        private u8 lastMagicLvl = 0;
+
         public s32 entranceIndex {get => this._entranceIndex(); set => this._entranceIndex(value);}//;
         
         public s32 linkAge {get => this._linkAge(); set => this._linkAge(value);}//;
@@ -37,11 +41,11 @@ namespace OoT.API {
         
         public s16 n64ddFlag {get => this._n64ddFlag(); set => this._n64ddFlag(value);}//;
         
-        public s16 healthCapacity {get => this._healthCapacity(); set => this._healthCapacity(value);}//;
+        public u16 healthCapacity {get => this._healthCapacity(); set => this._healthCapacity(value);}//;
         
-        public s16 health {get => this._health(); set => this._health(value);}//;
+        public u16 health {get => this._health(); set => this._health(value);}//;
         
-        public s8 magicLevel {get => this._magicLevel(); set => this._magicLevel(value);}//;
+        public u8 magicLevel {get => this._magicLevel(); set => this._magicLevel(value);}//;
         
         public s8 magic {get => this._magic(); set => this._magic(value);}//;
         
@@ -337,28 +341,55 @@ namespace OoT.API {
             Memory.RAM.WriteS16(this.pointer + 0x002C, value);
         }
         
-        private s16 _healthCapacity() {
-            return Memory.RAM.ReadS16(this.pointer + 0x002E);
+        private u16 _healthCapacity() {
+            return Memory.RAM.ReadU16(this.pointer + 0x002E);
         }
         
-        private void _healthCapacity(s16 value) {
-            Memory.RAM.WriteS16(this.pointer + 0x002E, value);
+        private void _healthCapacity(u16 value) {
+            Memory.RAM.WriteU16(this.pointer + 0x002E, value);
         }
         
-        private s16 _health() {
-            return Memory.RAM.ReadS16(this.pointer + 0x0030);
+        private u16 _health() {
+            return Memory.RAM.ReadU16(this.pointer + 0x0030);
         }
         
-        private void _health(s16 value) {
-            Memory.RAM.WriteS16(this.pointer + 0x0030, value);
+        private void _health(u16 value) {
+            Memory.RAM.WriteU16(this.pointer + 0x0030, value);
         }
         
-        private s8 _magicLevel() {
-            return Memory.RAM.ReadS8(this.pointer + 0x0032);
+        private u8 _magicLevel() {
+            lastMagicLvl = Memory.RAM.ReadU8(this.pointer + 0x0032);
+            return lastMagicLvl;
         }
         
-        private void _magicLevel(s8 value) {
-            Memory.RAM.WriteS8(this.pointer + 0x0032, value);
+        private void _magicLevel(u8 value) {
+            if (value <= lastMagicLvl) return;
+            lastMagicLvl = value;
+            switch (value)
+            {
+                case 0:
+                    isMagicAcquired = 0;
+                    isDoubleMagicAcquired = 0;
+                    magicFillTarget = 0;
+                    Memory.RAM.WriteU8(this.pointer + 0x0032, 0);
+                    magicState = 0x9; // Fill
+                    break;
+                case 1:
+                    isMagicAcquired = 1;
+                    isDoubleMagicAcquired = 0;
+                    magicFillTarget = 0x30;
+                    Memory.RAM.WriteU8(this.pointer + 0x0032, 0);
+                    magicState = 0x9; // Fill
+                    break;
+                case 2:
+                    isMagicAcquired = 1;
+                    isDoubleMagicAcquired = 1;
+                    magicFillTarget = 0x60;
+                    Memory.RAM.WriteU8(this.pointer + 0x0032, 0);
+                    magicState = 0x9; // Fill
+                    break;
+            }
+            
         }
         
         private s8 _magic() {
