@@ -93,6 +93,9 @@ public class WrapperInventory : MemoryObject
     public WrapperQuestStatus questStatus { get => this._questItems(); set => this._questItems(value); }
     public WrapperUpgrades upgrades { get => this._upgrades(); set => this._upgrades(value); }
 
+    public s8 defenseHearts { get => this._defenseHearts(); set => this._defenseHearts(value); }
+    public s16 gsTokens { get => this._gsTokens(); set => this._gsTokens(value); }
+
     // #ARRCOUNT 16
     private s8[] _ammo()
     {
@@ -166,22 +169,22 @@ public class WrapperInventory : MemoryObject
 
     private s8 _defenseHearts()
     {
-        return ReadS8(0x5B);
+        return (s8)Memory.RAM.ReadU8(this.pointer + 0x5B);
     }
 
     private void _defenseHearts(s8 value)
     {
-        WriteS8(0x5B, value);
+        Memory.RAM.WriteU8(this.pointer + 0x5B, (u8)value);
     }
 
     private s16 _gsTokens()
     {
-        return ReadS16(0x5C);
+        return (s16)Memory.RAM.ReadU16(this.pointer + 0x5C);
     }
 
     private void _gsTokens(s16 value)
     {
-        WriteS16(0x5C, value);
+        Memory.RAM.WriteU16(this.pointer + 0x5C, (u16)value);
     }
 }
 

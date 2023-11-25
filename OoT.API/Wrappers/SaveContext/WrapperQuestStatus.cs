@@ -1,4 +1,6 @@
 ﻿
+using Newtonsoft.Json.Linq;
+
 namespace OoT.API
 {
 
@@ -58,12 +60,16 @@ namespace OoT.API
 
         private u8 _heartPieces()
         {
-            return Memory.RAM.ReadU8(this.pointer);
+            u8 value = Memory.RAM.ReadU8(this.pointer);
+            return (u8)((value & 0x30) / 0x10);
         }
 
         private void _heartPieces(u8 value)
         {
-            Memory.RAM.WriteU8(this.pointer, value);
+            u8 temp = (u8)(value * 0x10);
+            u8 _value = Memory.RAM.ReadU8(this.pointer);
+            _value &= 0xCF;
+            Memory.RAM.WriteU8(this.pointer, (_value |= temp));
         }
 
         // #ARRCOUNT 20
