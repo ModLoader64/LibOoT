@@ -69,7 +69,7 @@ namespace OoT.API
         public void SetItemsFromIndex(DungeonItems items, int index)
         {
             u8 value = Memory.RAM.ReadU8(this.pointer + (u8)index);
-            if (items.compass)
+            if (items.bossKey)
             {
                 value |= 0x01;
             }
@@ -78,7 +78,7 @@ namespace OoT.API
                 value &= 0xFE;
             }
 
-            if (items.bossKey)
+            if (items.compass)
             {
                 value |= 0x02;
             }
@@ -152,6 +152,7 @@ namespace OoT.API
             DungeonKeys keys = new DungeonKeys();
             if (index > 0x14) return keys;
             keys.count = Memory.RAM.ReadU8(this.pointer + (u8)index);
+            if (keys.count == 0xFF) keys.count = 0;
             return keys;
         }
 
