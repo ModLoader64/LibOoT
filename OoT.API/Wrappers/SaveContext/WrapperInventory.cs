@@ -92,6 +92,7 @@ public class WrapperInventory : MemoryObject
     public WrapperEquipment equipment { get => this._equipment(); set => this._equipment(value); }
     public WrapperQuestStatus questStatus { get => this._questItems(); set => this._questItems(value); }
     public WrapperUpgrades upgrades { get => this._upgrades(); set => this._upgrades(value); }
+    public WrapperDungeonManager dungeon { get => this._dungeon(); set => this._dungeon(value); }
 
     public s8 defenseHearts { get => this._defenseHearts(); set => this._defenseHearts(value); }
     public s16 gsTokens { get => this._gsTokens(); set => this._gsTokens(value); }
@@ -144,27 +145,13 @@ public class WrapperInventory : MemoryObject
     }
 
     // #ARRCOUNT 20
-    private u8[] _dungeonItems()
+    private WrapperDungeonManager _dungeon()
     {
-        u8[] bytes = new u8[20]; for (u32 i = 0; i < 20; i++) { bytes[i] = ReadU8(0x34 + (i * 1)); }
-        return bytes;
+        return new WrapperDungeonManager(this.pointer + 0x34); 
     }
 
-    private void _dungeonItems(u8[] value)
+    private void _dungeon(WrapperDungeonManager value)
     {
-        for (u32 i = 0; i < 20; i++) { WriteU8(0x34 + (i * 1), value[i]); }
-    }
-
-    // #ARRCOUNT 19
-    private s8[] _dungeonKeys()
-    {
-        s8[] bytes = new s8[19]; for (u32 i = 0; i < 19; i++) { bytes[i] = ReadS8(0x48 + (i * 1)); }
-        return bytes;
-    }
-
-    private void _dungeonKeys(s8[] value)
-    {
-        for (u32 i = 0; i < 19; i++) { WriteS8(0x48 + (i * 1), value[i]); }
     }
 
     private s8 _defenseHearts()
