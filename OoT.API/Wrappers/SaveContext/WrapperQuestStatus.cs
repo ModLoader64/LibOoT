@@ -63,7 +63,6 @@ namespace OoT.API
 
         private void _heartPieces(u8 value)
         {
-            if (value > 3) return;
             Memory.RAM.WriteU8(this.pointer, value);
         }
 
