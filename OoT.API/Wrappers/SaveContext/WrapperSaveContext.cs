@@ -91,17 +91,17 @@ namespace OoT.API
 
         public @char[] unk_E8C { get => this._unk_E8C(); set => this._unk_E8C(value); }//;
 
-        public s32[] gsFlags { get => this._gsFlags(); set => this._gsFlags(value); }//;
+        public Buffer gsFlags { get => this._gsFlags(); set => this._gsFlags(value); }//;
 
         public @char[] unk_EB4 { get => this._unk_EB4(); set => this._unk_EB4(value); }//;
 
         public s32[] highScores { get => this._highScores(); set => this._highScores(value); }//;
 
-        public u16[] eventChkInf { get => this._eventChkInf(); set => this._eventChkInf(value); }//;
+        public Buffer eventChkInf { get => this._eventChkInf(); set => this._eventChkInf(value); }//;
 
-        public u16[] itemGetInf { get => this._itemGetInf(); set => this._itemGetInf(value); }//;
+        public Buffer itemGetInf { get => this._itemGetInf(); set => this._itemGetInf(value); }//;
 
-        public u16[] infTable { get => this._infTable(); set => this._infTable(value); }//;
+        public Buffer infTable { get => this._infTable(); set => this._infTable(value); }//;
 
         public @char[] unk_F34 { get => this._unk_F34(); set => this._unk_F34(value); }//;
 
@@ -287,7 +287,7 @@ namespace OoT.API
         public Buffer GetSceneFlagsFromIndexRaw(int index)
         {
             WrapperSavedSceneFlags flags = GetSceneFlagsFromIndex(index);
-            return new Buffer(new u32[] { flags.chest, flags.swch, flags.collect, flags.clear, flags.unk, flags.floors, flags.rooms });
+            return new Buffer(new u32[] { flags.chest, flags.swch, flags.clear, flags.collect, flags.unk, flags.floors, flags.rooms });
         }
 
         public void SetSceneFlagsSetIndexRaw(int index, Buffer incoming)
@@ -703,15 +703,16 @@ namespace OoT.API
         }
 
         // #ARRCOUNT 6
-        private s32[] _gsFlags()
+        private Buffer _gsFlags()
         {
-            s32[] bytes = new s32[6]; for (u32 i = 0; i < 6; i++) { bytes[i] = Memory.RAM.ReadS32(this.pointer + 0x0E9C + (i * 4)); }
+            Buffer bytes = new Buffer(0x6 * 0x4);
+            for (u32 i = 0; i < 6; i++) { bytes.WriteU32((u8)(i * 4), Memory.RAM.ReadU32(this.pointer + 0x0E9C + (i * 4)));  }
             return bytes;
         }
 
-        private void _gsFlags(s32[] value)
+        private void _gsFlags(Buffer value)
         {
-            for (u32 i = 0; i < 6; i++) { Memory.RAM.WriteS32(this.pointer + 0x0E9C + (i * 4), value[i]); }
+            for (u32 i = 0; i < 6; i++) { Memory.RAM.WriteU32(this.pointer + 0x0E9C + (i * 4), value.ReadU32((int)(i * 4))); }
         }
 
         // #ARRCOUNT 0x4
@@ -739,39 +740,42 @@ namespace OoT.API
         }
 
         // #ARRCOUNT 14
-        private u16[] _eventChkInf()
+        private Buffer _eventChkInf()
         {
-            u16[] bytes = new u16[14]; for (u32 i = 0; i < 14; i++) { bytes[i] = Memory.RAM.ReadU16(this.pointer + 0x0ED4 + (i * 2)); }
+            Buffer bytes = new Buffer(0x1C); 
+            for (u32 i = 0; i < 14; i++) { bytes.WriteU16((int)(i * 2), Memory.RAM.ReadU16(this.pointer + 0x0ED4 + (i * 2))); }
             return bytes;
         }
 
-        private void _eventChkInf(u16[] value)
+        private void _eventChkInf(Buffer value)
         {
-            for (u32 i = 0; i < 14; i++) { Memory.RAM.WriteU16(this.pointer + 0x0ED4 + (i * 2), value[i]); }
+            for (u32 i = 0; i < 14; i++) { Memory.RAM.WriteU16(this.pointer + 0x0ED4 + (i * 2), value.ReadU16((int)(i * 2))); }
         }
 
         // #ARRCOUNT 4
-        private u16[] _itemGetInf()
+        private Buffer _itemGetInf()
         {
-            u16[] bytes = new u16[4]; for (u32 i = 0; i < 4; i++) { bytes[i] = Memory.RAM.ReadU16(this.pointer + 0x0EF0 + (i * 2)); }
+            Buffer bytes = new Buffer(0x8);
+            for (u32 i = 0; i < 4; i++) { bytes.WriteU16((int)(i * 2), Memory.RAM.ReadU16(this.pointer + 0x0EF0 + (i * 2))); }
             return bytes;
         }
 
-        private void _itemGetInf(u16[] value)
+        private void _itemGetInf(Buffer value)
         {
-            for (u32 i = 0; i < 4; i++) { Memory.RAM.WriteU16(this.pointer + 0x0EF0 + (i * 2), value[i]); }
+            for (u32 i = 0; i < 4; i++) { Memory.RAM.WriteU16(this.pointer + 0x0EF0 + (i * 2), value.ReadU16((int)(i * 2))); }
         }
 
-        // #ARRCOUNT 30
-        private u16[] _infTable()
+        // #ARRCOUNT 30 u16
+        private Buffer _infTable()
         {
-            u16[] bytes = new u16[30]; for (u32 i = 0; i < 30; i++) { bytes[i] = Memory.RAM.ReadU16(this.pointer + 0x0EF8 + (i * 2)); }
+            Buffer bytes = new Buffer(0x3C); 
+            for (u32 i = 0; i < 30; i++) { bytes.WriteU16((int)(i * 2), Memory.RAM.ReadU16(this.pointer + 0x0EF8 + (i * 2))); }
             return bytes;
         }
 
-        private void _infTable(u16[] value)
+        private void _infTable(Buffer value)
         {
-            for (u32 i = 0; i < 30; i++) { Memory.RAM.WriteU16(this.pointer + 0x0EF8 + (i * 2), value[i]); }
+            for (u32 i = 0; i < 30; i++) { Memory.RAM.WriteU16(this.pointer + 0x0EF8 + (i * 2), value.ReadU16((int)(i * 2))); }
         }
 
         // #ARRCOUNT 0x04
