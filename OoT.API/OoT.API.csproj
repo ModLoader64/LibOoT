@@ -26,6 +26,7 @@
   </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\Buffer\Buffer.csproj" />
       <ProjectReference Include="..\..\..\ModLoader.API\ModLoader.API.csproj" />
     </ItemGroup>
 

@@ -7,7 +7,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Newtonsoft.Json.Converters;
 using System.Runtime.Intrinsics.Arm;
+using Buffer = NodeBuffer.Buffer;
 
 namespace OoT.API
 {
@@ -248,6 +250,68 @@ namespace OoT.API
         public WrapperSaveContext(u32 pointer)
         {
             this.pointer = pointer;
+        }
+
+        public Buffer GetSceneFlagsRaw()
+        {
+            Buffer buf = new Buffer(0xD90);
+
+            for (int i = 0; i < 124; i++)
+            {
+                buf.WriteBuffer(i * 0x1C, GetSceneFlagsFromIndexRaw(i));
+            }
+            
+            return buf;
+        }
+
+        public void SetSceneFlagsRaw(Buffer buf)
+        {
+            if (buf.Size != 0xD90)
+            {
+                Console.WriteLine($"Error: Input is too big/small! Expected {0xD90}, Recieved {buf.Size}");
+                return;
+            }
+            for (int i = 0; i < 124; i++)
+            {
+                WrapperSavedSceneFlags flags = GetSceneFlagsFromIndex(i);
+                Memory.RAM.WriteU32((uint)(this.pointer + 0xD4 + (i * 0x1C) + 0x0), buf.ReadU32(0x0));
+                Memory.RAM.WriteU32((uint)(this.pointer + 0xD4 + (i * 0x1C) + 0x4), buf.ReadU32(0x4));
+                Memory.RAM.WriteU32((uint)(this.pointer + 0xD4 + (i * 0x1C) + 0x8), buf.ReadU32(0x8));
+                Memory.RAM.WriteU32((uint)(this.pointer + 0xD4 + (i * 0x1C) + 0xC), buf.ReadU32(0xC));
+                Memory.RAM.WriteU32((uint)(this.pointer + 0xD4 + (i * 0x1C) + 0x10), buf.ReadU32(0x10));
+                Memory.RAM.WriteU32((uint)(this.pointer + 0xD4 + (i * 0x1C) + 0x14), buf.ReadU32(0x14));
+                Memory.RAM.WriteU32((uint)(this.pointer + 0xD4 + (i * 0x1C) + 0x18), buf.ReadU32(0x18));
+            }
+        }
+
+        public Buffer GetSceneFlagsFromIndexRaw(int index)
+        {
+            WrapperSavedSceneFlags flags = GetSceneFlagsFromIndex(index);
+            return new Buffer(new u32[] { flags.chest, flags.swch, flags.collect, flags.clear, flags.unk, flags.floors, flags.rooms });
+        }
+
+        public void SetSceneFlagsSetIndexRaw(int index, Buffer incoming)
+        {
+            WrapperSavedSceneFlags flags = new WrapperSavedSceneFlags((uint)(this.pointer + 0xD4 + (index * 0x1C)));
+            flags.chest = incoming.ReadU32(0x0);
+            flags.swch = incoming.ReadU32(0x4);
+            flags.clear = incoming.ReadU32(0x8);
+            flags.collect = incoming.ReadU32(0xC);
+            flags.unk = incoming.ReadU32(0x10);
+            flags.rooms = incoming.ReadU32(0x14);
+            flags.floors = incoming.ReadU32(0x18);
+        }
+
+        public WrapperSavedSceneFlags GetSceneFlagsFromIndex(int index)
+        {
+            WrapperSavedSceneFlags flags = new WrapperSavedSceneFlags((uint)(this.pointer + 0xD4 + (index * 0x1C)));
+            return flags;
+        }
+
+        public void SetSceneFlagsToIndex(int index, WrapperSavedSceneFlags incoming)
+        {
+            WrapperSavedSceneFlags flags = new WrapperSavedSceneFlags((uint)(this.pointer + 0xD4 + (index * 0x1C)));
+            flags = incoming;
         }
 
         public static uint getSize()

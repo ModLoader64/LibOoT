@@ -165,7 +165,7 @@ public class Core : IBootstrapFilter
 
     }
 
-    [EventHandler("OnRomLoaded")]
+    [EventHandler("EventRomLoaded")]
     public static void OnRomLoaded(EventRomLoaded e)
     {
         Console.WriteLine("OnRomLoaded GetRomHeader");
