@@ -14,6 +14,12 @@ namespace OoT.API {
 
         public u32 gameplayFrames { get => this._gameplayFrames(); set => this._gameplayFrames(value); }
 
+        public u32 liveChests { get => this._liveChests(); set => this._liveChests(value); }
+        public u32 liveClear { get => this._liveClear(); set => this._liveClear(value); }
+        public u32 liveSwitch { get => this._liveSwitch(); set => this._liveSwitch(value); }
+        public u32 liveTemp { get => this._liveTemp(); set => this._liveTemp(value); }
+        public u32 liveCollect { get => this._liveCollect(); set => this._liveCollect(value); }
+
         public WrapperGlobalContext(u32 pointer)
         {
             this.pointer = pointer;
@@ -57,6 +63,57 @@ namespace OoT.API {
         private void _gameplayFrames(u32 value)
         {
             Memory.RAM.WriteU32(this.pointer + 0x11DE4, value);
+        }
+
+        private u32 _liveChests()
+        {
+            return Memory.RAM.ReadU32(this.pointer + 0x1D38);
+        }
+
+        private void _liveChests(u32 value)
+        {
+            Memory.RAM.WriteU32(this.pointer + 0x1D38, value);
+        }
+
+        private u32 _liveClear()
+        {
+            return Memory.RAM.ReadU32(this.pointer + 0x1D3C);
+        }
+
+        private void _liveClear(u32 value)
+        {
+            Memory.RAM.WriteU32(this.pointer + 0x1D3C, value);
+        }
+
+        private u32 _liveTemp()
+        {
+            return Memory.RAM.ReadU32(this.pointer + 0x1D2C);
+        }
+
+        private void _liveTemp(u32 value)
+        {
+            Memory.RAM.WriteU32(this.pointer + 0x1D2C, value);
+        }
+
+        private u32 _liveSwitch()
+        {
+            return Memory.RAM.ReadU32(this.pointer + 0x1D28);
+        }
+
+        private void _liveSwitch(u32 value)
+        {
+            Memory.RAM.WriteU32(this.pointer + 0x1D28, value);
+        }
+
+        private u32 _liveCollect()
+        {
+            return Memory.RAM.ReadU32(this.pointer + 0x1D44);
+        }
+
+        private void _liveCollect(u32 value)
+        {
+            Memory.RAM.WriteU32(this.pointer + 0x1D44, value);
+
         }
     }
 }
