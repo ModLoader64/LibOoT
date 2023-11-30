@@ -87,13 +87,11 @@ namespace OoT.API.Wrappers.SaveContext
             if (flag)
             {
                 Memory.RAM.WriteU8(this.pointer + 0x1, value |= 0x04);
-                Memory.RAM.WriteU8(biggoronFlg, 0x0);
                 Memory.RAM.WriteU16(biggoronDmgAddr, 0x8);
             }
             else
             {
                 Memory.RAM.WriteU8(this.pointer + 0x1, value &= 0xFB);
-                Memory.RAM.WriteU8(biggoronFlg, 0x0);
                 Memory.RAM.WriteU16(biggoronDmgAddr, 0x0);
             }
         }
@@ -108,15 +106,12 @@ namespace OoT.API.Wrappers.SaveContext
             u8 value = Memory.RAM.ReadU8(this.pointer + 0x1);
             if (flag)
             {
-                Memory.RAM.WriteU8(this.pointer + 0x1, value |= 0x04);
+                giantsKnife = true;
                 Memory.RAM.WriteU8(biggoronFlg, 0x1);
-                Memory.RAM.WriteU16(biggoronDmgAddr, 0x8);
             }
             else
             {
-                Memory.RAM.WriteU8(this.pointer + 0x1, value &= 0xFB);
                 Memory.RAM.WriteU8(biggoronFlg, 0x0);
-                Memory.RAM.WriteU16(biggoronDmgAddr, 0x0);
             }
         }
 
