@@ -1,5 +1,7 @@
+using OoT.API.Enums;
 using OoT.API.Wrappers.SaveContext;
 using System.Reflection;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace OoT.API;
 
@@ -102,6 +104,16 @@ public class WrapperInventory : MemoryObject
     {
         s8[] bytes = new s8[16]; for (u32 i = 0; i < 16; i++) { bytes[i] = ReadS8(0x18 + (i * 1)); }
         return bytes;
+    }
+
+    public u8 GetAmmoForSlot(u8 slotId) {
+      if (slotId< 0 || slotId> 0xf) return 0;
+      return Memory.RAM.ReadU8(this.pointer + 0x18 + slotId);
+    }
+
+    public void SetAmmoInSlot(u8 slot, u8 amount) {
+      if (slot< 0 || slot >= 0xf) return;
+      Memory.RAM.WriteU8(this.pointer + 0x18 + slot, amount);
     }
 
     private void _ammo(s8[] value)
